@@ -32,7 +32,7 @@ import org.springframework.stereotype.Repository
  * @author Kai Reinhard (k.reinhard@micromata.de)
  */
 @Repository
-class SkillDao : BaseDao<SkillDO>(SkillDO::class.java) {
+open class SkillDao : BaseDao<SkillDO>(SkillDO::class.java) {
     override fun newInstance(): SkillDO {
         return SkillDO()
     }

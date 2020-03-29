@@ -23,14 +23,13 @@
 
 package org.projectforge.plugins.skills
 
-import org.hibernate.search.annotations.*
-import org.projectforge.common.anots.PropertyInfo
-import org.projectforge.common.props.PropertyType
-import org.projectforge.framework.persistence.api.Constants
-import org.projectforge.framework.persistence.entities.DefaultBaseDO
-import java.math.BigDecimal
-import java.time.LocalDate
-import javax.persistence.Column
+import org.hibernate.search.annotations.Indexed
+import org.projectforge.business.user.UserRightAccessCheck
+import org.projectforge.business.user.UserRightCategory
+import org.projectforge.business.user.UserRightValue
+import org.projectforge.framework.access.AccessChecker
+import org.projectforge.framework.access.OperationType
+import org.projectforge.framework.persistence.user.entities.PFUserDO
 import javax.persistence.Entity
 import javax.persistence.Table
 
@@ -43,15 +42,16 @@ import javax.persistence.Table
 @Entity
 @Indexed
 @Table(name = "T_PLUGIN_SKILL", indexes = [javax.persistence.Index(name = "idx_fk_t_plugin_liqui_entry_tenant_id", columnList = "tenant_id")])
-open class SkillDO : DefaultBaseDO() {
+open class SkillRight(accessChecker: AccessChecker)
+    : UserRightAccessCheck<SkillDO>(accessChecker, SkillsPluginUserRightId.PLUGIN_SKILLS, UserRightCategory.PLUGINS, UserRightValue.TRUE) {
 
-    @PropertyInfo(i18nKey = "plugins.skills.title")
-    @Field
-    @get:Column(length = Constants.LENGTH_TITLE)
-    open var title: String? = null
-
-    @PropertyInfo(i18nKey = "comment")
-    @Field
-    @get:Column(length = Constants.LENGTH_TEXT)
-    open var comment: String? = null
+    /**
+     * @return true if the owner is equals to the logged-in user, otherwise false.
+     */
+    override fun hasAccess(user: PFUserDO, obj: SkillDO?, oldObj: SkillDO?,
+                  operationType: OperationType?): Boolean {
+        val memo: SkillDO = (if (oldObj != null) oldObj else obj)
+                ?: return true // General insert and select access given by default.
+        return true
+    }
 }

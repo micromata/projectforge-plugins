@@ -23,59 +23,23 @@
 
 package org.projectforge.plugins.skills
 
-import org.projectforge.Const
-import org.projectforge.continuousdb.UpdateEntry
-import org.projectforge.menu.builder.MenuCreator
-import org.projectforge.menu.builder.MenuItemDef
-import org.projectforge.menu.builder.MenuItemDefId
-import org.projectforge.plugins.core.AbstractPlugin
-import org.projectforge.plugins.skills.SkillDO
-import org.projectforge.web.plugin.PluginWicketRegistrationService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
+import org.projectforge.framework.persistence.api.IUserRightId
 
 /**
- * Your plugin initialization. Register all your components such as i18n files, data-access object etc.
- *
- * @author Kai Reinhard (k.reinhard@micromata.de)
+ * @param id Must be unique (including all plugins).
+ * @param orderString For displaying the rights in e. g. UserEditPage in the correct order.
+ * @param i18nKey
  */
-@Component
-class SkillsPlugin : AbstractPlugin() {
+enum class SkillsPluginUserRightId(override val id: String,
+                                  override val orderString: String,
+                                  override val i18nKey: String) : IUserRightId {
+    PLUGIN_SKILLS("PLUGIN_SKILLS", "plugin20", "plugins.skills.skills");
 
-    @Autowired
-    private lateinit var skillDao: SkillDao
-
-    @Autowired
-    private lateinit var menuCreator: MenuCreator
-
-    override fun initialize() {
-        skillDao = applicationContext.getBean(SkillDao::class.java)
-        // Register it:
-        register(ID, SkillDao::class.java, skillDao, "plugins.skills")
-
-        // Define the access management:
-        registerRight(MemoRight(accessChecker))
-
-        // All the i18n stuff:
-        addResourceBundle(RESOURCE_BUNDLE_NAME)
+    override fun toString(): String {
+        return id
     }
 
-    fun setMemoDao(memoDao: MemoDao) {
-        this.memoDao = memoDao
-    }
-
-    override fun getInitializationUpdateEntry(): UpdateEntry? {
-        return MemoPluginUpdates.getInitializationUpdateEntry()
-    }
-
-    companion object {
-        val ID = "skills"
-
-        val RESOURCE_BUNDLE_NAME = "SkillsI18nResources"
-
-        // The order of the entities is important for xml dump and imports as well as for test cases (order for deleting objects at the end of
-        // each test).
-        // The entities are inserted in ascending order and deleted in descending order.
-        private val PERSISTENT_ENTITIES = arrayOf<Class<*>>(SkillDO::class.java)
+    override fun compareTo(o: IUserRightId?): Int {
+        return this.compareTo(o)
     }
 }

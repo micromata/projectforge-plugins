@@ -21,11 +21,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-package org.projectforge.plugins.memo.rest
+package org.projectforge.plugins.skills
 
-import org.projectforge.framework.persistence.user.api.ThreadLocalUserContext
-import org.projectforge.plugins.memo.MemoDO
-import org.projectforge.plugins.memo.MemoDao
 import org.projectforge.rest.config.Rest
 import org.projectforge.rest.core.AbstractDOPagesRest
 import org.projectforge.ui.LayoutUtils
@@ -36,15 +33,14 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("${Rest.URL}/memo")
-class MemoPagesRest() : AbstractDOPagesRest<MemoDO, MemoDao>(MemoDao::class.java, "plugins.memo.title") {
+@RequestMapping("${Rest.URL}/Skill")
+class SkillPagesRest() : AbstractDOPagesRest<SkillDO, SkillDao>(SkillDao::class.java, "plugins.Skill.title") {
     /**
-     * Initializes new memos for adding.
+     * Initializes new Skills for adding.
      */
-    override fun newBaseDO(request: HttpServletRequest?): MemoDO {
-        val memo = super.newBaseDO(request)
-        memo.owner = ThreadLocalUserContext.getUser()
-        return memo
+    override fun newBaseDO(request: HttpServletRequest?): SkillDO {
+        val Skill = super.newBaseDO(request)
+        return Skill
     }
 
     /**
@@ -53,16 +49,16 @@ class MemoPagesRest() : AbstractDOPagesRest<MemoDO, MemoDao>(MemoDao::class.java
     override fun createListLayout(): UILayout {
         val layout = super.createListLayout()
                 .add(UITable.UIResultSetTable()
-                        .add(lc, "created", "lastUpdate", "subject", "memo"))
+                        .add(lc, "skill", "comment"))
         return LayoutUtils.processListPage(layout, this)
     }
 
     /**
      * LAYOUT Edit page
      */
-    override fun createEditLayout(dto: MemoDO, userAccess: UILayout.UserAccess): UILayout {
+    override fun createEditLayout(dto: SkillDO, userAccess: UILayout.UserAccess): UILayout {
         val layout = super.createEditLayout(dto, userAccess)
-                .add(lc, "subject", "memo")
+                .add(lc, "skill", "comment")
         return LayoutUtils.processEditPage(layout, dto, this)
     }
 }
