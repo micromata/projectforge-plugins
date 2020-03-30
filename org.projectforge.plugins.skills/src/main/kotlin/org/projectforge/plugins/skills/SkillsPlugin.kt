@@ -45,7 +45,7 @@ class SkillsPlugin : AbstractPlugin("skills", "Skills", "Managing the user's ski
     override fun initialize() {
         skillDao = applicationContext.getBean(SkillDao::class.java)
         // Register it:
-        register(ID, SkillDao::class.java, skillDao, "plugins.skills")
+        register(id, SkillDao::class.java, skillDao, "plugins.skills")
 
         // Define the access management:
         registerRight(SkillRight(accessChecker))
@@ -57,13 +57,7 @@ class SkillsPlugin : AbstractPlugin("skills", "Skills", "Managing the user's ski
         addResourceBundle(RESOURCE_BUNDLE_NAME)
     }
 
-    fun setMemoDao(skillDao: SkillDao) {
-        this.skillDao = skillDao
-    }
-
     companion object {
-        val ID = "skills"
-
-        val RESOURCE_BUNDLE_NAME = "SkillsI18nResources"
+        const val RESOURCE_BUNDLE_NAME = "SkillsI18nResources"
     }
 }
