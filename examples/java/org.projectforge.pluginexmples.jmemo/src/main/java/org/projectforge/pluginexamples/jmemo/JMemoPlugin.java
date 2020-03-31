@@ -39,7 +39,7 @@ public class JMemoPlugin extends AbstractPlugin {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(JMemoPlugin.class);
 
     public JMemoPlugin() {
-        super("jmemo", "Java Memo example", "Example plugin in Jave.");
+        super("jmemo", "Java Memo example", "Example plugin in Java.");
     }
 
     @Autowired
@@ -62,5 +62,5 @@ public class JMemoPlugin extends AbstractPlugin {
         addResourceBundle(RESOURCE_BUNDLE_NAME);
     }
 
-    private static final String RESOURCE_BUNDLE_NAME = "KTMemoI18nResources";
+    private static final String RESOURCE_BUNDLE_NAME = "JMemoI18nResources";
 }

@@ -22,7 +22,7 @@ CREATE INDEX idx_fk_t_plugin_jmemo_tenant_id
   ON t_plugin_jmemo (tenant_id);
 
 ALTER TABLE t_plugin_jmemo
-  ADD CONSTRAINT fkkt72ignhv3m4spo048i722roy FOREIGN KEY (tenant_id) REFERENCES t_tenant (pk);
+  ADD CONSTRAINT fkjm72ignhv3m4spo048i722roy FOREIGN KEY (tenant_id) REFERENCES t_tenant (pk);
 
 ALTER TABLE t_plugin_jmemo
-  ADD CONSTRAINT fkktub13xpknmrxc8402idlxw0d FOREIGN KEY (owner_fk) REFERENCES t_pf_user (pk);
+  ADD CONSTRAINT fkjmub13xpknmrxc8402idlxw0d FOREIGN KEY (owner_fk) REFERENCES t_pf_user (pk);

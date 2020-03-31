@@ -2,3 +2,4 @@
 *.iml
 org.projectforge.plugins.skills/target
 examples/kotlin/org.projectforge.pluginexamples.ktmemo/target
+examples/java/org.projectforge.pluginexamples.jmemo/target

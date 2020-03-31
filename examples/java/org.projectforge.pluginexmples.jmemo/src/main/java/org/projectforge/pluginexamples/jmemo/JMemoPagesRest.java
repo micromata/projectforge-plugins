@@ -24,6 +24,7 @@
 package org.projectforge.pluginexamples.jmemo;
 
 import org.projectforge.framework.persistence.user.api.ThreadLocalUserContext;
+import org.projectforge.rest.config.Rest;
 import org.projectforge.rest.core.AbstractDOPagesRest;
 import org.projectforge.ui.LayoutUtils;
 import org.projectforge.ui.UILayout;
@@ -34,10 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("${Rest.URL}/ktmemo")
+@RequestMapping(Rest.URL + "/jmemo")
 public class JMemoPagesRest extends AbstractDOPagesRest<JMemoDO, JMemoDao> {
     public JMemoPagesRest() {
-        super(JMemoDao.class, "plugins.ktmemo.title");
+        super(JMemoDao.class, "plugins.jmemo.title");
     }
 
     /**
@@ -54,7 +55,7 @@ public class JMemoPagesRest extends AbstractDOPagesRest<JMemoDO, JMemoDao> {
      * LAYOUT List page
      */
     @Override
-            public UILayout createListLayout() {
+    public UILayout createListLayout() {
         UILayout layout = super.createListLayout()
                 .add(UITable.createUIResultSetTable()
                         .add(lc, "created", "lastUpdate", "subject", "memo"));
@@ -65,7 +66,7 @@ public class JMemoPagesRest extends AbstractDOPagesRest<JMemoDO, JMemoDao> {
      * LAYOUT Edit page
      */
     @Override
-public UILayout createEditLayout(JMemoDO dto, UILayout.UserAccess userAccess)   {
+    public UILayout createEditLayout(JMemoDO dto, UILayout.UserAccess userAccess) {
         UILayout layout = super.createEditLayout(dto, userAccess)
                 .add(lc, "subject", "memo");
         return LayoutUtils.processEditPage(layout, dto, this);
