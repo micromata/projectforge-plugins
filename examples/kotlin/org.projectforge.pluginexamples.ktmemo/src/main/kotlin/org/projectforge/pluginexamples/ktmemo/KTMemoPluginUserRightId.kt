@@ -20,7 +20,8 @@
 // with this program; if not, see http://www.gnu.org/licenses/.
 //
 /////////////////////////////////////////////////////////////////////////////
-package org.projectforge.pluginexamples.kotlindemo
+
+package org.projectforge.pluginexamples.ktmemo
 
 import org.hibernate.search.annotations.ClassBridge
 import org.hibernate.search.annotations.Indexed

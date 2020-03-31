@@ -21,17 +21,15 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-package org.projectforge.pluginexamples.kotlindemo
+package org.projectforge.pluginexamples.ktmemo
 
 import mu.KotlinLogging
-import org.flywaydb.core.Flyway
 import org.projectforge.Const
 import org.projectforge.menu.builder.MenuCreator
 import org.projectforge.menu.builder.MenuItemDef
 import org.projectforge.menu.builder.MenuItemDefId
 import org.projectforge.plugins.core.AbstractPlugin
 import org.springframework.beans.factory.annotation.Autowired
-import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
 
@@ -40,30 +38,15 @@ private val log = KotlinLogging.logger {}
  *
  * @author Kai Reinhard (k.reinhard@micromata.de)
  */
-class MemoPlugin : AbstractPlugin("ktmemo", "Kotlin Memo example", "Example plugin in Kotlin.") {
+class KTMemoPlugin : AbstractPlugin("ktmemo", "Kotlin Memo example", "Example plugin in Kotlin.") {
 
     @Autowired
     private lateinit var KTMemoDao: KTMemoDao
 
     @Autowired
-    private lateinit var dataSource: DataSource
-
-    @Autowired
     private lateinit var menuCreator: MenuCreator
 
     override fun initialize() {
-        // Create the Flyway instance and point it to the database
-        val flywayLocation = "${this::class.java.packageName}/flyway/dbmigration"
-        val flywayLocations = "classpath:flyway/${id}/init/common,classpath:flyway/${id}/migrate/common,classpath:flyway/${id}/init/{vendor},classpath:flyway/${id}/migrate/{vendor},classpath:$flywayLocation"
-        log.info("Initializing flyway with locations: $flywayLocations")
-        val flyway = Flyway.configure()
-                .dataSource(dataSource)
-                .table("t_flyway_${id}_schema_version")
-                .locations(flywayLocations)
-                .baselineOnMigrate(true)
-                .load()
-        flyway.migrate()
-
         // Register it:
         register(id, KTMemoDao::class.java, KTMemoDao, "plugins.ktmemo")
 

@@ -20,7 +20,8 @@
 // with this program; if not, see http://www.gnu.org/licenses/.
 //
 /////////////////////////////////////////////////////////////////////////////
-package org.projectforge.pluginexamples.kotlindemo
+
+package org.projectforge.pluginexamples.ktmemo
 
 import org.projectforge.business.user.UserRightAccessCheck
 import org.projectforge.business.user.UserRightCategory

@@ -21,7 +21,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-package org.projectforge.pluginexamples.kotlindemo
+package org.projectforge.pluginexamples.ktmemo
 
 import org.projectforge.framework.access.OperationType
 import org.projectforge.framework.persistence.api.BaseDao
@@ -39,6 +39,10 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 open class KTMemoDao : BaseDao<KTMemoDO>(KTMemoDO::class.java) {
+    init {
+        userRightId = KTMemoPluginUserRightId.PLUGIN_KT_MEMO
+
+    }
     /**
      * Load only memo's of current logged-in user.
      *
