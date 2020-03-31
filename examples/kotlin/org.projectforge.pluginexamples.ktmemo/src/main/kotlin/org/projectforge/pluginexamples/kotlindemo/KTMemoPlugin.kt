@@ -43,7 +43,7 @@ private val log = KotlinLogging.logger {}
 class MemoPlugin : AbstractPlugin("ktmemo", "Kotlin Memo example", "Example plugin in Kotlin.") {
 
     @Autowired
-    private lateinit var memoDao: MemoDao
+    private lateinit var KTMemoDao: KTMemoDao
 
     @Autowired
     private lateinit var dataSource: DataSource
@@ -60,14 +60,15 @@ class MemoPlugin : AbstractPlugin("ktmemo", "Kotlin Memo example", "Example plug
                 .dataSource(dataSource)
                 .table("t_flyway_${id}_schema_version")
                 .locations(flywayLocations)
+                .baselineOnMigrate(true)
                 .load()
         flyway.migrate()
 
         // Register it:
-        register(id, MemoDao::class.java, memoDao, "plugins.ktmemo")
+        register(id, KTMemoDao::class.java, KTMemoDao, "plugins.ktmemo")
 
         // Define the access management:
-        registerRight(MemoRight(accessChecker))
+        registerRight(KTMemoRight(accessChecker))
 
         menuCreator.add(MenuItemDefId.MISC, MenuItemDef(info.id, "plugins.ktmemo.menu", "${Const.REACT_APP_PATH}ktmemo"));
 

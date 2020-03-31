@@ -31,8 +31,8 @@ import java.util.*
 
 @Indexed
 @ClassBridge(impl = HibernateSearchUserRightIdBridge::class)
-enum class MemoPluginUserRightId(override val id: String, override val orderString: String?, override val i18nKey: String?)
+enum class KTMemoPluginUserRightId(override val id: String, override val orderString: String?, override val i18nKey: String?)
     : IUserRightId {
     // orderString and i18nKey may be null, because this right is not configurable for an user.
-    PLUGIN_MEMO("EXAMPLE_PLUGIN_KTMEMO", null, null);
+    PLUGIN_KT_MEMO("EXAMPLE_PLUGIN_KTMEMO", null, null);
 }

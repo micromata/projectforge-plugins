@@ -38,7 +38,7 @@ import org.springframework.stereotype.Repository
  * @author Kai Reinhard (k.reinhard@micromata.de)
  */
 @Repository
-class MemoDao : BaseDao<MemoDO>(MemoDO::class.java) {
+open class KTMemoDao : BaseDao<KTMemoDO>(KTMemoDO::class.java) {
     /**
      * Load only memo's of current logged-in user.
      *
@@ -53,20 +53,12 @@ class MemoDao : BaseDao<MemoDO>(MemoDO::class.java) {
         return queryFilter
     }
 
-    override fun onSaveOrModify(obj: MemoDO) {
+    override fun onSaveOrModify(obj: KTMemoDO) {
         super.onSaveOrModify(obj)
         obj.owner = ThreadLocalUserContext.getUser() // Set always the logged-in user as owner.
     }
 
-    override fun hasUserSelectAccess(user: PFUserDO?, throwException: Boolean): Boolean {
-        return true
-    }
-
-    override fun hasAccess(user: PFUserDO?, obj: MemoDO?, oldObj: MemoDO?, operationType: OperationType?, throwException: Boolean): Boolean {
-        return super.hasAccess(user, obj, oldObj, operationType, throwException)
-    }
-
-    override fun newInstance(): MemoDO {
-        return MemoDO()
+    override fun newInstance(): KTMemoDO {
+        return KTMemoDO()
     }
 }

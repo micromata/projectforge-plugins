@@ -35,11 +35,11 @@ import org.projectforge.framework.persistence.user.entities.PFUserDO
  *
  * @author Kai Reinhard (k.reinhard@me.de)
  */
-class MemoRight(accessChecker: AccessChecker?) : UserRightAccessCheck<MemoDO?>(accessChecker, MemoPluginUserRightId.PLUGIN_MEMO, UserRightCategory.PLUGINS, UserRightValue.TRUE) {
+class KTMemoRight(accessChecker: AccessChecker?) : UserRightAccessCheck<KTMemoDO?>(accessChecker, KTMemoPluginUserRightId.PLUGIN_KT_MEMO, UserRightCategory.PLUGINS, UserRightValue.TRUE) {
     /**
      * @return true if the owner is equals to the logged-in user, otherwise false.
      */
-    override fun hasAccess(user: PFUserDO, obj: MemoDO?, oldObj: MemoDO?,
+    override fun hasAccess(user: PFUserDO, obj: KTMemoDO?, oldObj: KTMemoDO?,
                            operationType: OperationType): Boolean {
         val memo = oldObj ?: obj
         ?: return true // General insert and select access given by default.

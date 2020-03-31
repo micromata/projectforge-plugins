@@ -43,7 +43,7 @@ import javax.persistence.*
 @Entity
 @Indexed
 @Table(name = "T_EXAMPLE_PLUGIN_KT_MEMO", indexes = [javax.persistence.Index(name = "idx_fk_t_plugin_ktmemo_owner_fk", columnList = "owner_fk"), javax.persistence.Index(name = "idx_fk_t_plugin_ktmemo_tenant_id", columnList = "tenant_id")])
-open class MemoDO : AbstractBaseDO<Int>() {
+open class KTMemoDO : AbstractBaseDO<Int>() {
 
     @PropertyInfo(i18nKey = "id")
     private var id: Int? = null
