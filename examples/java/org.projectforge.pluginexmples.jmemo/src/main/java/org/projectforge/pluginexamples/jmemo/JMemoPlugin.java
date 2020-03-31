@@ -21,45 +21,46 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-package org.projectforge.pluginexamples.ktmemo
+package org.projectforge.pluginexamples.jmemo;
 
-import mu.KotlinLogging
-import org.projectforge.Const
-import org.projectforge.menu.builder.MenuCreator
-import org.projectforge.menu.builder.MenuItemDef
-import org.projectforge.menu.builder.MenuItemDefId
-import org.projectforge.plugins.core.AbstractPlugin
-import org.springframework.beans.factory.annotation.Autowired
-
-private val log = KotlinLogging.logger {}
+import org.projectforge.Const;
+import org.projectforge.menu.builder.MenuCreator;
+import org.projectforge.menu.builder.MenuItemDef;
+import org.projectforge.menu.builder.MenuItemDefId;
+import org.projectforge.plugins.core.AbstractPlugin;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Your plugin initialization. Register all your components such as i18n files, data-access object etc.
  *
  * @author Kai Reinhard (k.reinhard@micromata.de)
  */
-class KTMemoPlugin : AbstractPlugin("ktmemo", "Kotlin Memo example", "Example plugin in Kotlin.") {
+public class JMemoPlugin extends AbstractPlugin {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(JMemoPlugin.class);
+
+    public JMemoPlugin() {
+        super("jmemo", "Java Memo example", "Example plugin in Jave.");
+    }
 
     @Autowired
-    private lateinit var KtMemoDao: KtMemoDao
+    private JMemoDao jMemoDao;
 
     @Autowired
-    private lateinit var menuCreator: MenuCreator
+    private MenuCreator menuCreator;
 
-    override fun initialize() {
+    @Override
+    public void initialize() {
         // Register it:
-        register(id, KtMemoDao::class.java, KtMemoDao, "plugins.ktmemo")
+        register(getId(), JMemoDao.class, jMemoDao, "plugins.jmemo");
 
         // Define the access management:
-        registerRight(KTMemoRight(accessChecker))
+        registerRight(new JMemoRight(accessChecker));
 
-        menuCreator.add(MenuItemDefId.MISC, MenuItemDef(info.id, "plugins.ktmemo.menu", "${Const.REACT_APP_PATH}ktmemo"));
+        menuCreator.add(MenuItemDefId.MISC, new MenuItemDef(getInfo().getId(), "plugins.jmemo.menu", Const.REACT_APP_PATH + "jmemo"));
 
         // All the i18n stuff:
-        addResourceBundle(RESOURCE_BUNDLE_NAME)
+        addResourceBundle(RESOURCE_BUNDLE_NAME);
     }
 
-    companion object {
-        const val RESOURCE_BUNDLE_NAME = "KTMemoI18nResources"
-    }
+    private static final String RESOURCE_BUNDLE_NAME = "KTMemoI18nResources";
 }

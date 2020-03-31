@@ -21,15 +21,14 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-package org.projectforge.pluginexamples.ktmemo
+package org.projectforge.pluginexamples.jmemo;
 
-import org.projectforge.framework.access.OperationType
-import org.projectforge.framework.persistence.api.BaseDao
-import org.projectforge.framework.persistence.api.BaseSearchFilter
-import org.projectforge.framework.persistence.api.QueryFilter
-import org.projectforge.framework.persistence.user.api.ThreadLocalUserContext
-import org.projectforge.framework.persistence.user.entities.PFUserDO
-import org.springframework.stereotype.Repository
+import org.projectforge.framework.persistence.api.BaseDao;
+import org.projectforge.framework.persistence.api.BaseSearchFilter;
+import org.projectforge.framework.persistence.api.QueryFilter;
+import org.projectforge.framework.persistence.user.api.ThreadLocalUserContext;
+import org.projectforge.framework.persistence.user.entities.PFUserDO;
+import org.springframework.stereotype.Repository;
 
 /**
  * This is the base data access object class. Most functionality such as access checking, select, insert, update, save,
@@ -38,31 +37,36 @@ import org.springframework.stereotype.Repository
  * @author Kai Reinhard (k.reinhard@micromata.de)
  */
 @Repository
-open class KTMemoDao : BaseDao<KTMemoDO>(KTMemoDO::class.java) {
-    init {
-        userRightId = KTMemoPluginUserRightId.PLUGIN_KT_MEMO
+public class JMemoDao extends BaseDao<JMemoDO> {
 
+    public JMemoDao() {
+        super(JMemoDO.class);
+        userRightId = JMemoPluginUserRightId.PLUGIN_J_MEMO;
     }
+
     /**
      * Load only memo's of current logged-in user.
      *
      * @param filter
      * @return
      */
-    override fun createQueryFilter(filter: BaseSearchFilter): QueryFilter {
-        val queryFilter = super.createQueryFilter(filter)
-        val user = PFUserDO()
-        user.id = ThreadLocalUserContext.getUserId()
-        queryFilter.add(QueryFilter.eq("owner", user))
-        return queryFilter
+    @Override
+    public QueryFilter createQueryFilter(BaseSearchFilter filter) {
+        QueryFilter queryFilter = super.createQueryFilter(filter);
+        PFUserDO user = new PFUserDO();
+        user.setId(ThreadLocalUserContext.getUserId());
+        queryFilter.add(QueryFilter.eq("owner", user));
+        return queryFilter;
     }
 
-    override fun onSaveOrModify(obj: KTMemoDO) {
-        super.onSaveOrModify(obj)
-        obj.owner = ThreadLocalUserContext.getUser() // Set always the logged-in user as owner.
+    @Override
+    protected void onSaveOrModify(JMemoDO obj) {
+        super.onSaveOrModify(obj);
+        obj.setOwner(ThreadLocalUserContext.getUser()); // Set always the logged-in user as owner.
     }
 
-    override fun newInstance(): KTMemoDO {
-        return KTMemoDO()
+    @Override
+    public JMemoDO newInstance() {
+        return new JMemoDO();
     }
 }

@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("${Rest.URL}/ktmemo")
-class KTMemoPagesRest() : AbstractDOPagesRest<KTMemoDO, KTMemoDao>(KTMemoDao::class.java, "plugins.ktmemo.title") {
+class KTMemoPagesRest() : AbstractDOPagesRest<KTMemoDO, KtMemoDao>(KtMemoDao::class.java, "plugins.ktmemo.title") {
     /**
      * Initializes new memos for adding.
      */
