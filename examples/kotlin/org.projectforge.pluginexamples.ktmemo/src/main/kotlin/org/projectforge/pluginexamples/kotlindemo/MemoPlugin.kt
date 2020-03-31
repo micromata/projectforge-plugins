@@ -21,42 +21,61 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-package org.projectforge.plugins.skills
+package org.projectforge.pluginexamples.kotlindemo
 
+import mu.KotlinLogging
+import org.flywaydb.core.Flyway
+import org.projectforge.Const
 import org.projectforge.menu.builder.MenuCreator
+import org.projectforge.menu.builder.MenuItemDef
+import org.projectforge.menu.builder.MenuItemDefId
 import org.projectforge.plugins.core.AbstractPlugin
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
+import javax.sql.DataSource
+
+private val log = KotlinLogging.logger {}
 
 /**
  * Your plugin initialization. Register all your components such as i18n files, data-access object etc.
  *
  * @author Kai Reinhard (k.reinhard@micromata.de)
  */
-class SkillsPlugin : AbstractPlugin("skills", "Skills", "Managing the user's skills.") {
+class MemoPlugin : AbstractPlugin("ktmemo", "Kotlin Memo example", "Example plugin in Kotlin.") {
 
     @Autowired
-    private lateinit var skillDao: SkillDao
+    private lateinit var memoDao: MemoDao
+
+    @Autowired
+    private lateinit var dataSource: DataSource
 
     @Autowired
     private lateinit var menuCreator: MenuCreator
 
     override fun initialize() {
-        skillDao = applicationContext.getBean(SkillDao::class.java)
+        // Create the Flyway instance and point it to the database
+        val flywayLocation = "${this::class.java.packageName}/flyway/dbmigration"
+        val flywayLocations = "classpath:flyway/${id}/init/common,classpath:flyway/${id}/migrate/common,classpath:flyway/${id}/init/{vendor},classpath:flyway/${id}/migrate/{vendor},classpath:$flywayLocation"
+        log.info("Initializing flyway with locations: $flywayLocations")
+        val flyway = Flyway.configure()
+                .dataSource(dataSource)
+                .table("t_flyway_${id}_schema_version")
+                .locations(flywayLocations)
+                .load()
+        flyway.migrate()
+
         // Register it:
-        register(id, SkillDao::class.java, skillDao, "plugins.skills")
+        register(id, MemoDao::class.java, memoDao, "plugins.ktmemo")
 
         // Define the access management:
-        registerRight(SkillRight(accessChecker))
+        registerRight(MemoRight(accessChecker))
 
-        //registerMenuItem(MenuItemDefId.MISC, MenuItemDef(ID, "plugins.memo.menu", "${Const.REACT_APP_PATH}memo"), MemoListPage::class.java)
-
+        menuCreator.add(MenuItemDefId.MISC, MenuItemDef(info.id, "plugins.ktmemo.menu", "${Const.REACT_APP_PATH}ktmemo"));
 
         // All the i18n stuff:
         addResourceBundle(RESOURCE_BUNDLE_NAME)
     }
 
     companion object {
-        const val RESOURCE_BUNDLE_NAME = "SkillsI18nResources"
+        const val RESOURCE_BUNDLE_NAME = "KTMemoI18nResources"
     }
 }
