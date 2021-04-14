@@ -36,7 +36,7 @@ import org.projectforge.framework.persistence.user.entities.PFUserDO
  *
  * @author Kai Reinhard (k.reinhard@me.de)
  */
-class KTMemoRight(accessChecker: AccessChecker?) : UserRightAccessCheck<KTMemoDO?>(accessChecker, KTMemoPluginUserRightId.PLUGIN_KT_MEMO, UserRightCategory.PLUGINS, UserRightValue.TRUE) {
+class KTMemoRight(accessChecker: AccessChecker?) : UserRightAccessCheck<KTMemoDO>(accessChecker, KTMemoPluginUserRightId.PLUGIN_KT_MEMO, UserRightCategory.PLUGINS, UserRightValue.TRUE) {
     /**
      * @return true if the owner is equals to the logged-in user, otherwise false.
      */
@@ -45,9 +45,5 @@ class KTMemoRight(accessChecker: AccessChecker?) : UserRightAccessCheck<KTMemoDO
         val memo = oldObj ?: obj
         ?: return true // General insert and select access given by default.
         return user.id == memo.ownerId
-    }
-
-    companion object {
-        private const val serialVersionUID = -2928342166476350773L
     }
 }

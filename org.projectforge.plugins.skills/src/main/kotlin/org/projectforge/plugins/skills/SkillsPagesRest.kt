@@ -48,7 +48,7 @@ class SkillPagesRest() : AbstractDOPagesRest<SkillDO, SkillDao>(SkillDao::class.
      */
     override fun createListLayout(): UILayout {
         val layout = super.createListLayout()
-                .add(UITable.UIResultSetTable()
+                .add(UITable.createUIResultSetTable()
                         .add(lc, "skill", "comment"))
         return LayoutUtils.processListPage(layout, this)
     }

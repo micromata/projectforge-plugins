@@ -42,7 +42,7 @@ import javax.persistence.Table
  */
 @Entity
 @Indexed
-@Table(name = "T_PLUGIN_SKILL", indexes = [javax.persistence.Index(name = "idx_fk_t_plugin_liqui_entry_tenant_id", columnList = "tenant_id")])
+@Table(name = "T_PLUGIN_SKILL")
 open class SkillDO : DefaultBaseDO() {
 
     @PropertyInfo(i18nKey = "plugins.skills.title")
